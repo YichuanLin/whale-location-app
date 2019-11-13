@@ -1,0 +1,12 @@
+.whale-list__loader-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whale-list__list-wrapper {
+    height: 300px;
+    overflow-y: auto;
+    background-color: #DDDDDD;
+    padding: 20px;
+}
