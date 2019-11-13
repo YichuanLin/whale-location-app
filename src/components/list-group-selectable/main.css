@@ -1,0 +1,28 @@
+.list-group-selectable > * {
+    box-sizing: border-box;
+}
+
+.list-group-selectable {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-group-selectable li {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #333333;
+    color: #f2f2f2;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.list-group-selectable li.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.list-group-selectable li:hover {
+    background-color: #f6f6f6;
+    color: #000;
+}
