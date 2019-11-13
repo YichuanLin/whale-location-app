@@ -1,0 +1,12 @@
+.full-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 88px);
+}
+
+.full-info__spice-field {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
