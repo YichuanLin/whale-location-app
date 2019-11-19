@@ -1,0 +1,37 @@
+.marker-wrapper {
+    position: relative;
+}
+
+.marker {
+    position: absolute;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+}
+
+.marker.marker-black {
+    border: 8px solid #333;
+}
+
+.marker.marker-green {
+    border: 8px solid #4CAF50;
+}
+
+.marker::after {
+    position: absolute;
+    content: '';
+    width: 0px;
+    height: 0px;
+    bottom: -30px;
+    left: -6px;
+    border: 10px solid transparent;
+
+}
+
+.marker.marker-black::after {
+    border-top: 17px solid #333;
+}
+
+.marker.marker-green::after {
+    border-top: 17px solid #4CAF50;
+}
