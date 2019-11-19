@@ -1,12 +1,35 @@
-.full-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 88px);
-}
-
 .full-info__spice-field {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.full-info__grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 6% 340px 34%;
+    grid-gap: 10px 10px;
+    align-items: center;
+}
+
+.full-info__cell--first-row {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+}
+
+.full-info__cell--half-width {
+    grid-row: 2 / 3;
+}
+
+.full-info__cell--half-width .full-info__cell--half-width--right {
+    grid-column: 2 / 3;
+}
+
+.full-info__cell--half-width .full-info__cell--half-width--left {
+    grid-column: 1 / 2;
+}
+
+.full-info__cell--last-row {
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
 }

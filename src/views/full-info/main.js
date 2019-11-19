@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import WhaleList from "../../views/whale-list";
 import Dropdown from "../../components/dropdown";
 import SummaryInfo from "../summary-info";
+import WhaleMap from "../whale-map";
 
 import "./main.css";
 
@@ -48,21 +49,34 @@ export const FullInfo = () => {
     setSelectedItemId(id);
   };
   return (
-    <div className="full-info">
-      <div className="full-info__spice-field">
-        <label>Spiece: </label>
-        <Dropdown
-          id="full-info__dropdown"
-          options={OPTIONS_SPECIES}
-          onChange={onChangeSpice}
+    <div className="full-info full-info__grid">
+      <div className="full-info__cell--first-row">
+        <div className="full-info__spice-field">
+          <label>Spiece: </label>
+          <Dropdown
+            id="full-info__dropdown"
+            options={OPTIONS_SPECIES}
+            onChange={onChangeSpice}
+          />
+        </div>
+      </div>
+      <div className="full-info__cell--half-width full-info__cell--half-width--left">
+        <WhaleList
+          spices={spice}
+          onSelectedItem={onSelectedItem}
+          selectedItem={selectedItemId}
         />
       </div>
-      <WhaleList
-        spices={spice}
-        onSelectedItem={onSelectedItem}
-        selectedItem={selectedItemId}
-      />
-      <SummaryInfo id={selectedItemId} />
+      <div className="full-info__cell--half-width full-info__cell--half-width--right">
+        <WhaleMap
+          spices={spice}
+          onSelectedItem={onSelectedItem}
+          selectedItem={selectedItemId}
+        />
+      </div>
+      <div className="full-info__cell--last-row">
+        <SummaryInfo id={selectedItemId} />
+      </div>
     </div>
   );
 };
