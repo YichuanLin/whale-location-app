@@ -9,6 +9,9 @@ import "./main.css";
 const BLACK_WHALE = "../../whale-black.svg";
 const GREEN_WHALE = "../../whale-green.svg";
 
+const ERROR_TITLE = "Error";
+const EMPTY_RESULT_TEXT = "Empty results";
+
 export const WhaleMap = ({ spices, selectedItem, onSelectedItem }) => {
   return (
     <WithList spices={spices}>
@@ -23,7 +26,11 @@ export const WhaleMap = ({ spices, selectedItem, onSelectedItem }) => {
 
         if (error) {
           return (
-            <Note type={Note.TYPE.DANGER} title="Error" description={error} />
+            <Note
+              type={Note.TYPE.DANGER}
+              title={ERROR_TITLE}
+              description={error}
+            />
           );
         }
 
@@ -45,7 +52,7 @@ export const WhaleMap = ({ spices, selectedItem, onSelectedItem }) => {
         return (
           <>
             {!list.length && (
-              <Note type={Note.TYPE.INFO} description="Empty results" />
+              <Note type={Note.TYPE.INFO} description={EMPTY_RESULT_TEXT} />
             )}
             <MapSelectable
               defaulIcon={BLACK_WHALE}

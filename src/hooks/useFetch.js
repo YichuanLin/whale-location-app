@@ -5,22 +5,26 @@ import dataReducer, {
   dataUpdate
 } from "../reducers/data";
 
+const INITIAL_STATE = {
+  loading: false,
+  data: null,
+  error: null
+};
+
 export const useFetch = ({ url, config }) => {
   const [fetchUrl, setFetchUrl] = useState(url || null);
   const [fetchConfig, setFetchConfig] = useState(config || null);
-  const [state, dispatch] = useReducer(dataReducer, {
-    loading: false,
-    data: null,
-    error: null
-  });
+  const [state, dispatch] = useReducer(dataReducer, INITIAL_STATE);
+
   useEffect(() => {
     dispatch(fetchStarted());
     const handleErrors = error => {
       dispatch(errorOccurred(JSON.stringify(error)));
     };
 
-    fetch(url, config)
-      .then(response => {
+    (async function() {
+      try {
+        const response = await fetch(fetchUrl, fetchConfig);
         const { ok } = response;
         response.json().then(responseJSON => {
           if (!ok) {
@@ -29,8 +33,10 @@ export const useFetch = ({ url, config }) => {
             dispatch(dataUpdate(responseJSON));
           }
         });
-      })
-      .catch(handleErrors);
+      } catch (error) {
+        handleErrors(error);
+      }
+    })();
   }, [fetchUrl, fetchConfig]);
 
   return [
