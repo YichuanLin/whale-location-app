@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { WhaleListContext } from "../../store";
+import { ACTIONS } from "../../reducers/whales";
+
+const BASE_URL = "http://hotline.whalemuseum.org/api.json";
 
 export const WithList = ({ spices, children }) => {
-  const [list, setList] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useContext(WhaleListContext);
   useEffect(() => {
     const config = {
       method: "GET",
@@ -11,14 +13,15 @@ export const WithList = ({ spices, children }) => {
         "Content-Type": "application/json"
       }
     };
-    setError(null);
-    setIsFetching(true);
+    dispatch({ type: ACTIONS.LOADING_STARTED });
     const handleErrors = error => {
-      setError(JSON.stringify(error));
-      setIsFetching(false);
+      dispatch({
+        type: ACTIONS.ERROR_OCCURRED,
+        payload: JSON.stringify(error)
+      });
     };
-    const baseUrl = "http://hotline.whalemuseum.org/api.json";
-    const url = spices ? `${baseUrl}?species=${spices}` : baseUrl;
+
+    const url = spices ? `${BASE_URL}?species=${spices}` : BASE_URL;
     fetch(url, config)
       .then(response => {
         const { ok } = response;
@@ -26,13 +29,12 @@ export const WithList = ({ spices, children }) => {
           if (!ok) {
             handleErrors(responseJSON);
           } else {
-            setList(responseJSON);
-            setIsFetching(false);
+            dispatch({ type: ACTIONS.LIST_UPDATED, payload: responseJSON });
           }
         });
       })
       .catch(handleErrors);
   }, [spices]);
 
-  return children(list, isFetching, error);
+  return children(state.list, state.isFetching, state.error);
 };
