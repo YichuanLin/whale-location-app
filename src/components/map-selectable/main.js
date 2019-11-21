@@ -29,7 +29,6 @@ export const MapSelectable = ({
   const listOfMarkers = list.map((item, index) => {
     const position = [item.latitude, item.longitude];
     const onChange = selectedItem => {
-      console.log("clicked!!");
       onSelectedItem(selectedItem.id);
     };
     const icon = selectedItem === item.id ? SELECTED_ICON : DEFAULT_ICON;
