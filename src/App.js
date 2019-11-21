@@ -2,6 +2,9 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import MainRoutes from "./routes";
 import Header from "./components/header";
+import whalesReducer from "./reducers/whales";
+import { StateProvider } from "./store";
+
 import "./App.css";
 
 function App() {
@@ -11,14 +14,19 @@ function App() {
     { url: "/detail/null", label: "Detail" }
   ];
   return (
-    <Router>
-      <div className="App">
-        <Header links={links} />
-        <div className="main-router-wrapper">
-          <MainRoutes />
+    <StateProvider
+      reducer={whalesReducer}
+      initialState={{ list: null, isFetching: false, error: null }}
+    >
+      <Router>
+        <div className="App">
+          <Header links={links} />
+          <div className="main-router-wrapper">
+            <MainRoutes />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </StateProvider>
   );
 }
 
