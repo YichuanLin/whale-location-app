@@ -27,6 +27,10 @@ export const WhaleMap = ({ spices, selectedItem, onSelectedItem }) => {
           );
         }
 
+        if (!list) {
+          return null;
+        }
+
         let mapPosition;
         if (selectedItem) {
           const foundItem = list.find(item => item.id === selectedItem);
