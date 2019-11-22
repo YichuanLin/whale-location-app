@@ -1,3 +1,3 @@
-import { SummaryInfoWrapper } from "./main";
+import { SummaryInfo } from "./main";
 
-export default SummaryInfoWrapper;
+export default SummaryInfo;

@@ -1,47 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Loader from "../../components/loader";
 import Card from "../../components/card";
 import Note from "../../components/note";
 import { withRouter } from "react-router-dom";
+import { useFetch } from "../../hooks";
+import { SummaryInfoWrapper } from "./wrapper";
 
-const SummaryInfo = ({ id, history }) => {
-  const [item, setItem] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    if (!id) {
-      setItem(null);
-      return;
+const BASE_URL = "http://hotline.whalemuseum.org/api";
+
+const getInitialFetchData = id => {
+  const url = `${BASE_URL}/${id}.json`;
+  const config = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
     }
-    const config = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    setError(null);
-    setIsFetching(true);
-    const handleErrors = error => {
-      setError(JSON.stringify(error));
-      setIsFetching(false);
-    };
-    const baseUrl = `http://hotline.whalemuseum.org/api/${id}.json`;
-    fetch(baseUrl, config)
-      .then(response => {
-        const { ok } = response;
-        response.json().then(responseJSON => {
-          if (!ok) {
-            handleErrors(responseJSON);
-          } else {
-            setItem(responseJSON);
-            setIsFetching(false);
-          }
-        });
-      })
-      .catch(handleErrors);
-  }, [id]);
+  };
+  return {
+    url,
+    config
+  };
+};
 
-  if (isFetching) {
+const SummaryInfoView = ({ id, history }) => {
+  const [{ data: item, error, loading }, { setUrl }] = useFetch(
+    getInitialFetchData(id)
+  );
+
+  const url = `${BASE_URL}/${id}.json`;
+
+  useEffect(() => {
+    setUrl(url);
+  }, [url, setUrl]);
+
+  if (loading) {
     return (
       <div className="whale-list__loader-wrapper">
         <Loader />
@@ -74,4 +66,6 @@ const SummaryInfo = ({ id, history }) => {
   );
 };
 
-export const SummaryInfoWrapper = withRouter(SummaryInfo);
+export const SummaryInfo = withRouter(props => (
+  <SummaryInfoWrapper {...props} Component={SummaryInfoView} />
+));
