@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import WhaleList from "../../views/whale-list";
 import Dropdown from "../../components/dropdown";
 import SummaryInfo from "../summary-info";
 import WhaleMap from "../whale-map";
+import fullInfoReducer, {
+  selectItem,
+  updateSpecie,
+  toggleListView,
+  toggleMapView
+} from "../../reducers/full-info";
 
 import "./main.css";
 
@@ -38,41 +44,76 @@ const OPTIONS_SPECIES = [
   }))
 ];
 
+const INITIAL_STATE = {
+  specie: null,
+  selectedItemId: null,
+  isMapView: true,
+  isListView: true
+};
+
 export const FullInfo = () => {
-  const [spice, setSpice] = useState(null);
-  const [selectedItemId, setSelectedItemId] = useState(null);
-  const onChangeSpice = value => {
-    setSpice(value);
-    setSelectedItemId(null);
+  const [
+    { specie, selectedItemId, isListView, isMapView },
+    dispatch
+  ] = useReducer(fullInfoReducer, INITIAL_STATE);
+  const onChangeSpecie = specie => {
+    dispatch(updateSpecie(specie));
   };
   const onSelectedItem = id => {
-    setSelectedItemId(id);
+    dispatch(selectItem(id));
   };
   return (
     <div className="full-info full-info__grid">
-      <div className="full-info__cell--first-row">
+      <div className="full-info__cell--first-row full-info__cell--half-width--left">
         <div className="full-info__spice-field">
           <label>Spiece: </label>
           <Dropdown
             id="full-info__dropdown"
             options={OPTIONS_SPECIES}
-            onChange={onChangeSpice}
+            onChange={onChangeSpecie}
           />
         </div>
       </div>
+      <div className="full-info__cell--first-row full-info__cell--half-width--right">
+        <div className="full-info__spice-field">
+          <label>View: </label>
+          <span>
+            <input
+              type="checkbox"
+              value="list"
+              onChange={() => dispatch(toggleListView())}
+              checked={isListView}
+            />
+            List
+          </span>
+          <span>
+            <input
+              type="checkbox"
+              value="map"
+              onChange={() => dispatch(toggleMapView())}
+              checked={isMapView}
+            />
+            Map
+          </span>
+        </div>
+      </div>
       <div className="full-info__cell--half-width full-info__cell--half-width--left">
-        <WhaleList
-          spices={spice}
-          onSelectedItem={onSelectedItem}
-          selectedItem={selectedItemId}
-        />
+        {isListView && (
+          <WhaleList
+            specie={specie}
+            onSelectedItem={onSelectedItem}
+            selectedItem={selectedItemId}
+          />
+        )}
       </div>
       <div className="full-info__cell--half-width full-info__cell--half-width--right">
-        <WhaleMap
-          spices={spice}
-          onSelectedItem={onSelectedItem}
-          selectedItem={selectedItemId}
-        />
+        {isMapView && (
+          <WhaleMap
+            specie={specie}
+            onSelectedItem={onSelectedItem}
+            selectedItem={selectedItemId}
+          />
+        )}
       </div>
       <div className="full-info__cell--last-row">
         <SummaryInfo id={selectedItemId} />
