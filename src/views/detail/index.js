@@ -1,3 +1,3 @@
-import { DetailWrapper } from "./main";
+import { Detail } from "./main";
 
-export default DetailWrapper;
+export default Detail;
