@@ -6,9 +6,9 @@ import WithList from "../../components/with-list";
 
 import "./main.css";
 
-export const WhaleList = ({ spices, selectedItem, onSelectedItem }) => {
+export const WhaleList = ({ specie, selectedItem, onSelectedItem }) => {
   return (
-    <WithList spices={spices}>
+    <WithList specie={specie}>
       {(list, isFetching, error) => {
         if (isFetching) {
           return (

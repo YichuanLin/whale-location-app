@@ -9,9 +9,9 @@ import "./main.css";
 const ERROR_TITLE = "Error";
 const EMPTY_RESULT_TEXT = "Empty results";
 
-export const WhaleMap = ({ spices, selectedItem, onSelectedItem }) => {
+export const WhaleMap = ({ specie, selectedItem, onSelectedItem }) => {
   return (
-    <WithList spices={spices}>
+    <WithList specie={specie}>
       {(list, isFetching, error) => {
         if (isFetching) {
           return (
