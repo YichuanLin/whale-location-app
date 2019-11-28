@@ -3,8 +3,8 @@ import { useFetch } from "../../hooks";
 
 const BASE_URL = "http://hotline.whalemuseum.org/api.json";
 
-const getInitialFetchData = spices => {
-  const url = spices ? `${BASE_URL}?species=${spices}` : BASE_URL;
+const getInitialFetchData = specie => {
+  const url = specie ? `${BASE_URL}?species=${specie}` : BASE_URL;
   const config = {
     method: "GET",
     headers: {
@@ -17,15 +17,15 @@ const getInitialFetchData = spices => {
   };
 };
 
-export const WithList = ({ spices, children }) => {
+export const WithList = ({ specie, children }) => {
   const [{ data: list, error, loading }, { setUrl }] = useFetch(
-    getInitialFetchData(spices)
+    getInitialFetchData(specie)
   );
 
   useEffect(() => {
-    const url = spices ? `${BASE_URL}?species=${spices}` : BASE_URL;
+    const url = specie ? `${BASE_URL}?species=${specie}` : BASE_URL;
     setUrl(url);
-  }, [spices, setUrl]);
+  }, [specie, setUrl]);
 
   return children(list, loading, error);
 };
