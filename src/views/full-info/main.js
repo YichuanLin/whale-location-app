@@ -1,14 +1,9 @@
-import React, { useReducer } from "react";
+import React, { useState } from "react";
 import WhaleList from "../../views/whale-list";
 import Dropdown from "../../components/dropdown";
-import SummaryInfo from "../summary-info";
+import SummaryInfo from "../whale-summary";
 import WhaleMap from "../whale-map";
-import fullInfoReducer, {
-  selectItem,
-  updateSpecie,
-  toggleListView,
-  toggleMapView
-} from "../../reducers/full-info";
+import WithListRedux from "../../components/with-list-redux";
 
 import "./main.css";
 
@@ -44,80 +39,63 @@ const OPTIONS_SPECIES = [
   }))
 ];
 
-const INITIAL_STATE = {
-  specie: null,
-  selectedItemId: null,
-  isMapView: true,
-  isListView: true
-};
-
 export const FullInfo = () => {
-  const [
-    { specie, selectedItemId, isListView, isMapView },
-    dispatch
-  ] = useReducer(fullInfoReducer, INITIAL_STATE);
-  const onChangeSpecie = specie => {
-    dispatch(updateSpecie(specie));
+  const [isListView, setIsListView] = useState(true);
+  const [isMapView, setIsMapView] = useState(true);
+  const [specie, setSpice] = useState(null);
+
+  const changeHandler = specie => {
+    setSpice(specie);
   };
-  const onSelectedItem = id => {
-    dispatch(selectItem(id));
-  };
+
   return (
-    <div className="full-info full-info__grid">
-      <div className="full-info__cell--first-row full-info__cell--half-width--left">
-        <div className="full-info__spice-field">
-          <label>Spiece: </label>
-          <Dropdown
-            id="full-info__dropdown"
-            options={OPTIONS_SPECIES}
-            onChange={onChangeSpecie}
-          />
+    <WithListRedux specie={specie}>
+      <div className="full-info full-info__grid">
+        <div className="full-info__cell--first-row full-info__cell--half-width--left">
+          <div className="full-info__spice-field">
+            <label>Spiece: </label>
+            <Dropdown
+              id="full-info__dropdown"
+              options={OPTIONS_SPECIES}
+              onChange={changeHandler}
+            />
+          </div>
+        </div>
+        <div className="full-info__cell--first-row full-info__cell--half-width--right">
+          <div className="full-info__spice-field">
+            <label>View: </label>
+            <span>
+              <input
+                type="checkbox"
+                value="list"
+                onChange={() =>
+                  setIsListView(prevIsListView => !prevIsListView)
+                }
+                checked={isListView}
+              />
+              List
+            </span>
+            <span>
+              <input
+                type="checkbox"
+                value="map"
+                onChange={() => setIsMapView(prevIsMapView => !prevIsMapView)}
+                checked={isMapView}
+              />
+              Map
+            </span>
+          </div>
+        </div>
+        <div className="full-info__cell--half-width full-info__cell--half-width--left">
+          {isListView && <WhaleList />}
+        </div>
+        <div className="full-info__cell--half-width full-info__cell--half-width--right">
+          {isMapView && <WhaleMap specie={specie} />}
+        </div>
+        <div className="full-info__cell--last-row">
+          <SummaryInfo />
         </div>
       </div>
-      <div className="full-info__cell--first-row full-info__cell--half-width--right">
-        <div className="full-info__spice-field">
-          <label>View: </label>
-          <span>
-            <input
-              type="checkbox"
-              value="list"
-              onChange={() => dispatch(toggleListView())}
-              checked={isListView}
-            />
-            List
-          </span>
-          <span>
-            <input
-              type="checkbox"
-              value="map"
-              onChange={() => dispatch(toggleMapView())}
-              checked={isMapView}
-            />
-            Map
-          </span>
-        </div>
-      </div>
-      <div className="full-info__cell--half-width full-info__cell--half-width--left">
-        {isListView && (
-          <WhaleList
-            specie={specie}
-            onSelectedItem={onSelectedItem}
-            selectedItem={selectedItemId}
-          />
-        )}
-      </div>
-      <div className="full-info__cell--half-width full-info__cell--half-width--right">
-        {isMapView && (
-          <WhaleMap
-            specie={specie}
-            onSelectedItem={onSelectedItem}
-            selectedItem={selectedItemId}
-          />
-        )}
-      </div>
-      <div className="full-info__cell--last-row">
-        <SummaryInfo id={selectedItemId} />
-      </div>
-    </div>
+    </WithListRedux>
   );
 };
