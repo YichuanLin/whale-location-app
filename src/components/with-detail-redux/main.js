@@ -45,8 +45,6 @@ export const WithDetailReduxFetchData = ({
   return children;
 };
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = dispatch => ({
   onFetchDataStart: () => dispatch(whaleDetailFetchDataStart()),
   onFetchDataSuccess: data => dispatch(whaleDetailFetchDataSuccess(data)),
@@ -54,6 +52,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const WithDetailRedux = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(WithDetailReduxFetchData);

@@ -45,8 +45,6 @@ export const WithListReduxFetchData = ({
   return children;
 };
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = dispatch => ({
   onFetchDataStart: () => dispatch(whaleListFetchDataStart()),
   onFetchDataSuccess: data => dispatch(whaleListFetchDataSuccess(data)),
@@ -54,6 +52,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const WithListRedux = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(WithListReduxFetchData);
