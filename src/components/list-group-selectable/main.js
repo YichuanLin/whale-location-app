@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./main.css";
 
 export const ListGroupSelectable = ({ list, selectedItem, onSelectedItem }) => {
   const [hasClicked, setHasClicked] = useState(false);
-  const refs = list.reduce((acc, value) => {
-    acc[value.id] = React.createRef();
-    return acc;
-  }, {});
+  const refs = useMemo(
+    () =>
+      list.reduce((acc, value) => {
+        acc[value.id] = React.createRef();
+        return acc;
+      }, {}),
+    [list]
+  );
 
   useEffect(() => {
-    if (selectedItem && !hasClicked) {
+    if (selectedItem && !hasClicked && refs[selectedItem]) {
       refs[selectedItem].current.scrollIntoView({
         behavior: "auto"
       });
