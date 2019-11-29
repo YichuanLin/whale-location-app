@@ -3,7 +3,7 @@ import dataReducer, {
   fetchStarted,
   errorOccurred,
   dataUpdate
-} from "../reducers/data";
+} from "../store/reducers/data";
 
 const INITIAL_STATE = {
   loading: false,
