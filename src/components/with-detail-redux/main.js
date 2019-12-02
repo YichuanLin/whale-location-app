@@ -1,54 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { ACTIONS_CREATOR } from "../../store/actions";
 
-const {
-  whaleDetailFetchDataStart,
-  whaleDetailFetchDataSuccess,
-  whaleDetailFetchDataFail
-} = ACTIONS_CREATOR;
+const { getWhaleDetail } = ACTIONS_CREATOR;
 
-const BASE_URL = "http://hotline.whalemuseum.org/api";
-
-export const WithDetailReduxFetchData = ({
-  children,
-  id,
-  onFetchDataStart,
-  onFetchDataSuccess,
-  onFetchDataFail
-}) => {
-  const url = `${BASE_URL}/${id}.json`;
-
+export const WithDetailReduxFetchData = ({ children, id, getWhaleDetail }) => {
+  const getWhaleDetailData = useCallback(id => getWhaleDetail(id), [
+    getWhaleDetail
+  ]);
   useEffect(() => {
-    onFetchDataStart();
-    const handleErrors = error => {
-      onFetchDataFail(JSON.stringify(error));
-    };
-
-    (async function() {
-      try {
-        const response = await fetch(url);
-        const { ok } = response;
-        response.json().then(responseJSON => {
-          if (!ok) {
-            handleErrors(responseJSON);
-          } else {
-            onFetchDataSuccess(responseJSON);
-          }
-        });
-      } catch (error) {
-        handleErrors(error);
-      }
-    })();
-  }, [onFetchDataStart, onFetchDataSuccess, onFetchDataFail, url]);
+    getWhaleDetailData(id);
+  }, [getWhaleDetailData, id]);
 
   return children;
 };
 
 const mapDispatchToProps = dispatch => ({
-  onFetchDataStart: () => dispatch(whaleDetailFetchDataStart()),
-  onFetchDataSuccess: data => dispatch(whaleDetailFetchDataSuccess(data)),
-  onFetchDataFail: error => dispatch(whaleDetailFetchDataFail(error))
+  getWhaleDetail: id => dispatch(getWhaleDetail(id))
 });
 
 export const WithDetailRedux = connect(
