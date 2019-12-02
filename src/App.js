@@ -11,8 +11,7 @@ function App() {
   const links = [
     { url: "/", label: "Home" },
     { url: "/full-info", label: "Full Info" },
-    { url: "/detail", label: "Detail" },
-    { url: "/test", label: "Test" }
+    { url: "/detail", label: "Detail" }
   ];
   return (
     <Provider store={store}>
