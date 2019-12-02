@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { parseError } from "../utils";
 
 export const whaleListSelector = state => state.whaleList;
 
@@ -16,4 +17,9 @@ export const whaleListToMapSelector = createSelector(
       latitude,
       longitude
     }))
+);
+
+export const whaleListToErrorSelector = createSelector(
+  whaleListSelector,
+  whaleList => parseError(whaleList.error)
 );

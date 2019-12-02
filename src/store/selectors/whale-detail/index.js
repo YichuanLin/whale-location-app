@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { parseError } from "../utils";
 
 export const whaleDetailSelector = state => state.whaleDetail;
 
@@ -6,7 +7,6 @@ export const whaleDetailToSummarySelector = createSelector(
   whaleDetailSelector,
   whaleDetail => {
     const { detail } = whaleDetail;
-    console.log("detail", whaleDetail);
     return (
       detail && {
         id: detail.id,
@@ -16,4 +16,14 @@ export const whaleDetailToSummarySelector = createSelector(
       }
     );
   }
+);
+
+export const whaleDetailToDetailSelector = createSelector(
+  whaleDetailSelector,
+  whaleDetail => whaleDetail.detail
+);
+
+export const whaleDetailToErrorSelector = createSelector(
+  whaleDetailSelector,
+  whaleDetail => parseError(whaleDetail.error)
 );

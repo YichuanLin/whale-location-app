@@ -13,7 +13,8 @@ export const whaleListReducer = (state = INITIAL_STATE, action) => {
     case ACTIONS.WHALE_LIST_FETCH_DATA_SUCCESS:
       return {
         ...state,
-        list: action.payload,
+        list: action.payload.list,
+        specie: action.payload.specie,
         loading: false
       };
     case ACTIONS.WHALE_LIST_FETCH_DATA_FAIL:
