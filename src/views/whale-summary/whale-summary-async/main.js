@@ -3,7 +3,7 @@ import Note from "../../../components/note";
 import Card from "../../../components/card";
 import Loader from "../../../components/loader";
 
-export const WhaleSummaryFetchData = ({ item, error, isFetching, history }) => {
+export const WhaleSummaryAsync = ({ item, error, isFetching, history }) => {
   if (isFetching) {
     return (
       <div className="whale-summary__loader-wrapper">

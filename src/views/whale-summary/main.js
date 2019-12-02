@@ -1,22 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import WhaleSummaryFetchData from "./whale-summary-fetch-data";
+import WhaleSummaryAsync from "./whale-summary-async";
 import Note from "../../components/note";
 import WithDetailRedux from "../../components/with-detail-redux";
 import {
   whaleDetailSelector,
+  whaleDetailToErrorSelector,
   whaleDetailToSummarySelector
 } from "../../store/selectors";
 
 export const WhaleSummaryFetchDataConnected = withRouter(props => {
-  const { id } = props;
-  if (!id) {
+  const { item } = props;
+  if (!item) {
     return <Note type={Note.TYPE.INFO} description="No whale selected" />;
   }
   return (
-    <WithDetailRedux id={id}>
-      <WhaleSummaryFetchData {...props} />
+    <WithDetailRedux id={item.id}>
+      <WhaleSummaryAsync {...props} />
     </WithDetailRedux>
   );
 });
@@ -24,9 +25,8 @@ export const WhaleSummaryFetchDataConnected = withRouter(props => {
 const mapStateToProps = state => {
   const whaleDetail = whaleDetailSelector(state);
   return {
-    id: whaleDetail.id,
     item: whaleDetailToSummarySelector(state),
-    error: whaleDetail.error,
+    error: whaleDetailToErrorSelector(state),
     isFetching: whaleDetail.loading
   };
 };

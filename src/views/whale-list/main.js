@@ -7,6 +7,7 @@ import { ACTIONS_CREATOR } from "../../store/actions";
 import {
   whaleListSelector,
   whaleDetailSelector,
+  whaleListToErrorSelector,
   whaleListToListSelector
 } from "../../store/selectors";
 
@@ -59,14 +60,14 @@ const mapStateToProps = state => {
   const whaleList = whaleListSelector(state);
   return {
     isFetching: whaleList.loading,
-    error: whaleList.error,
+    error: whaleListToErrorSelector(state),
     list: whaleListToListSelector(state),
-    selectedItem: whaleDetail.id
+    selectedItem: whaleDetail.detail && whaleDetail.detail.id
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  onSelectedItem: id => dispatch(ACTIONS_CREATOR.whaleDetailWhaleSelected(id))
+  onSelectedItem: id => dispatch(ACTIONS_CREATOR.getWhaleDetail(id))
 });
 
 export const WhaleList = connect(
