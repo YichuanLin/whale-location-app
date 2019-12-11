@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const BASE_URL = "http://hotline.whalemuseum.org/api";
+const BASE_URL = "https://hotline.whalemuseum.org/api";
 
 const fetcher = id => {
   const config = {

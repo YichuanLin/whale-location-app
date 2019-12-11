@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useFetch } from "../../hooks";
 
-const BASE_URL = "http://hotline.whalemuseum.org/api.json";
+const BASE_URL = "https://hotline.whalemuseum.org/api.json";
 
 const getInitialFetchData = specie => {
   const url = specie ? `${BASE_URL}?species=${specie}` : BASE_URL;
